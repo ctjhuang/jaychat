@@ -6,6 +6,8 @@ const chatMessages = document.getElementById('chatMessages');
 const userInput = document.getElementById('userInput');
 const sendButton = document.getElementById('sendText');
 const voiceButton = document.getElementById('startVoice');
+const maximizeButton = document.getElementById('maximizeChat');
+const chatSection = document.getElementById('ai-chat');
 
 // Initialize Gemini AI with API key
 const ai = new GoogleGenAI({
@@ -25,12 +27,26 @@ let chatHistory = [];
 // Event Listeners
 sendButton.addEventListener('click', handleSendMessage);
 voiceButton.addEventListener('click', toggleVoiceRecognition);
+maximizeButton.addEventListener('click', toggleChatMaximize);
 userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         handleSendMessage();
     }
 });
+
+// Maximize/Minimize Chat
+function toggleChatMaximize() {
+    chatSection.classList.toggle('maximized');
+    const icon = maximizeButton.querySelector('i');
+    if (chatSection.classList.contains('maximized')) {
+        icon.classList.remove('fa-expand');
+        icon.classList.add('fa-compress');
+    } else {
+        icon.classList.remove('fa-compress');
+        icon.classList.add('fa-expand');
+    }
+}
 
 // Voice Recognition Events
 recognition.onstart = () => {
